@@ -163,7 +163,10 @@ public class HeapFile implements DbFile {
                     else
                     {
                         this.currentPage += 1;
-                        this.iter = getIterator(this.currentPage);
+                        if (this.currentPage == this.numpages)
+                            return false;
+                        else//if current == numpages, getIterator will error
+                            this.iter = getIterator(this.currentPage);
                     }
                     return hasNext();
                 }
