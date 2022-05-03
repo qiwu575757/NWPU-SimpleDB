@@ -283,7 +283,6 @@ public class HeapPage implements Page {
      */
     public void insertTuple(Tuple t) throws DbException {
         // some code goes here
-        int tupleid = t.getRecordId().getTupleNumber();
         //tuple slots is full
         if (getNumEmptySlots() == 0)
         {
