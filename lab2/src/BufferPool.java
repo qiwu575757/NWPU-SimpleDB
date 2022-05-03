@@ -32,7 +32,55 @@ public class BufferPool {
     constructor instead. */
     public static final int DEFAULT_PAGES = 50;
     private final int numPages;
-    private ConcurrentHashMap<PageId,Page> bufferpool;
+
+    private ConcurrentHashMap<PageId,LinkedNode> bufferpool;
+    //LinkNode is double head linklist and store the <pageid,page> map
+    private static class LinkedNode {
+        PageId pageId;
+        Page page;
+        LinkedNode prev;
+        LinkedNode next;
+        public LinkedNode(PageId pageId, Page page) {
+            this.pageId = pageId;
+            this.page = page;
+        }
+    }
+    /*
+    LRU:
+        当BufferPool中的page被访问时，将该pageId对应的LinkedNode移动到链表的头部，
+        当有page需要放置到BufferPool中，且BufferPool的容量已经满时，则将最近最少使用的page淘汰，
+        即链表的最后一个节点，然后将该page放置到BufferPool中。
+    */
+    //LTU implement method
+    LinkedNode head, tail;
+    //if one page is received in the first time, the linkednode would be placed to the head
+    private void addToHead(LinkedNode node)
+    {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+    //remove the page from the bufferpool
+    private void remove(LinkedNode node )
+    {
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+    }
+    //if one page in the bufferpool is received, move it to the head
+    private void moveToHead(LinkedNode node)
+    {
+        remove(node);
+        addToHead(node);
+    }
+    //remove the last page in the list
+    private LinkedNode removeTail()
+    {
+        LinkedNode node = tail.prev;
+        remove(node);
+
+        return node;
+    }
 
     /**
      * Creates a BufferPool that caches up to numPages pages.
@@ -43,6 +91,10 @@ public class BufferPool {
         // some code goes here
         this.numPages = numPages;
         bufferpool = new ConcurrentHashMap<>(numPages);
+        head = new LinkedNode(new HeapPageId(-1, -1), null);
+        tail = new LinkedNode(new HeapPageId(-1, -1), null);
+        head.next = tail;
+        tail.prev = head;
     }
 
     public static int getPageSize() {
@@ -77,23 +129,25 @@ public class BufferPool {
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-        if (this.bufferpool.containsKey(pid))
-        {
-            return this.bufferpool.get(pid);
-        }
-        else
-        {
-            if ( this.bufferpool.size() <= numPages )
+            //if bufferpool do not have the page
+            if (!bufferpool.containsKey(pid))
             {
-                Page page = Database.getCatalog().getDatabaseFile(pid.getTableId()).readPage(pid);
-                this.bufferpool.put(pid,page);
-                return page;
+                //get the page
+                DbFile dbFile = Database.getCatalog().getDatabaseFile(pid.getTableId());
+                Page page = dbFile.readPage(pid);
+                if ( bufferpool.size() > numPages )
+                {
+                    //use the evict policy
+                    evictPage();
+                }
+                LinkedNode node = new LinkedNode(pid, page);
+                bufferpool.put(pid, node);
+                addToHead(node);
             }
-            else
-            {
-                throw new DbException("BufferPool is full");
-            }
-        }
+            //once the page is received, it should be moved to head
+            moveToHead(bufferpool.get(pid));
+
+            return bufferpool.get(pid).page;
     }
 
     /**
@@ -161,11 +215,7 @@ public class BufferPool {
         HeapFile heapFile = (HeapFile) Database.getCatalog().getDatabaseFile(tableId);
         List<Page> pages = heapFile.insertTuple(tid, t);
         // 将页面刷新到缓存中
-        for ( Page p: pages ) {
-            p.markDirty(true, tid);
-            //PageId pid = p.getId();
-            bufferpool.put(p.getId(), p);
-        }
+        updateBufferPool(pages, tid);
 
     }
 
@@ -188,13 +238,24 @@ public class BufferPool {
         int tableId = t.getRecordId().getPageId().getTableId();
         HeapFile heapFile = (HeapFile) Database.getCatalog().getDatabaseFile(tableId);
         List<Page> pages = heapFile.deleteTuple(tid, t);
-        for ( Page p: pages ) {
-            p.markDirty(true, tid);
-            //PageId pid = p.getId();
-            bufferpool.put(p.getId(), p);
-        }
+        updateBufferPool(pages,tid);
     }
 
+    private void updateBufferPool(List<Page> pagelist, TransactionId tid)
+            throws DbException {
+            for ( Page p: pagelist ) {
+                p.markDirty(true,tid);
+                if ( bufferpool.size() > numPages ) {
+                   //use the evict policy
+                   evictPage();
+                }
+                //获取节点，此时的页一定已经在缓存了，因为刚刚被修改的时候已经放入缓存了
+                LinkedNode node = bufferpool.get(p.getId());
+                node.page = p;
+                //update to bufferpool
+                bufferpool.put(p.getId(), node);
+            }
+    }
     /**
      * Flush all dirty pages to disk.
      * NB: Be careful using this routine -- it writes dirty data to disk so will
@@ -202,8 +263,9 @@ public class BufferPool {
      */
     public synchronized void flushAllPages() throws IOException {
         // some code goes here
-        // not necessary for lab1
-
+        for (PageId pid : bufferpool.keySet() ) {
+            flushPage(pid);
+        }
     }
 
     /** Remove the specific page id from the buffer pool.
@@ -216,7 +278,7 @@ public class BufferPool {
     */
     public synchronized void discardPage(PageId pid) {
         // some code goes here
-        // not necessary for lab1
+        bufferpool.remove(pid);
     }
 
     /**
@@ -225,7 +287,11 @@ public class BufferPool {
      */
     private synchronized  void flushPage(PageId pid) throws IOException {
         // some code goes here
-        // not necessary for lab1
+        Page page = bufferpool.get(pid).page;
+        if (page.isDirty() != null ) {
+            Database.getCatalog().getDatabaseFile(pid.getTableId()).writePage(page);
+            page.markDirty(false, null);
+        }
     }
 
     /** Write all pages of the specified transaction to disk.
@@ -241,7 +307,14 @@ public class BufferPool {
      */
     private synchronized  void evictPage() throws DbException {
         // some code goes here
-        // not necessary for lab1
+        LinkedNode tail = removeTail();
+        PageId evictPageId = tail.pageId;
+        try {
+            flushPage(evictPageId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        discardPage(evictPageId);
     }
 
 }
