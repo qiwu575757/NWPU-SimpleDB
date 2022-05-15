@@ -8,6 +8,7 @@ import simpledb.transaction.TransactionAbortedException;
 import simpledb.transaction.TransactionId;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -219,6 +220,11 @@ public class BufferPool {
             this.pageId = pageId;
             this.page = page;
         }
+
+        public void setPage(Page page) {
+            this.page = page;
+            this.pageId = page.getId();
+        }
     }
     /*
     LRU:
@@ -316,6 +322,11 @@ public class BufferPool {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            /*
+            deadlock judgement:
+                超时。对每个事务设置一个获取锁的超时时间，如果在超时时间内获取不到锁，
+                我们就认为可能发生了死锁，将该事务进行中断。
+            */
             long now = System.currentTimeMillis();
             if ( now - st > 500 )
                 throw new TransactionAbortedException();
@@ -371,6 +382,7 @@ public class BufferPool {
     public void transactionComplete(TransactionId tid) {
         // some code goes here
         // not necessary for lab1|lab2
+        transactionComplete(tid, true);
     }
 
     /** Return true if the specified transaction has a lock on the specified page */
@@ -390,6 +402,37 @@ public class BufferPool {
     public void transactionComplete(TransactionId tid, boolean commit) {
         // some code goes here
         // not necessary for lab1|lab2
+        if (commit) {
+            try {
+                // If commit, write all pages to disk
+                flushPages(tid);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            // If fail to commit, read the dity page from disk to recover
+            restorePages(tid);
+        }
+        // Release all lock about this tid after dirty pages are handled
+        lockManager.completeTransaction(tid);
+    }
+
+    public synchronized void restorePages(TransactionId tid) {
+        for (LinkedNode node: bufferpool.values()) {
+            Page page = node.page;
+            PageId pid = node.pageId;
+            if (tid.equals(page.isDirty())) {
+                // read the page related to dirty page from the disk
+                int tableId = pid.getTableId();
+                DbFile dbFile = Database.getCatalog().getDatabaseFile(tableId);
+                Page pageFromDisk = dbFile.readPage(pid);
+                // restore the dirty page
+                node.setPage(pageFromDisk);
+                bufferpool.put(pid,node);
+                moveToHead(node);
+            }
+        }
     }
 
     /**
@@ -486,8 +529,8 @@ public class BufferPool {
      */
     private synchronized  void flushPage(PageId pid) throws IOException {
         // some code goes here
-        Page page = bufferpool.get(pid).page;
-        if (page.isDirty() != null ) {
+        if (bufferpool.containsKey(pid) ) {
+            Page page = bufferpool.get(pid).page;
             Database.getCatalog().getDatabaseFile(pid.getTableId()).writePage(page);
             page.markDirty(false, null);
         }
@@ -498,22 +541,35 @@ public class BufferPool {
     public synchronized  void flushPages(TransactionId tid) throws IOException {
         // some code goes here
         // not necessary for lab1|lab2
+        for (PageId pid: lockManager.lockMap.keySet()) {
+            ConcurrentHashMap<TransactionId,PageLock> tid_lockmap = lockManager.lockMap.get(pid);
+            if (tid_lockmap.containsKey(tid)) {
+                flushPage(pid);
+            }
+        }
     }
 
     /**
      * Discards a page from the buffer pool.
      * Flushes the page to disk to ensure dirty pages are updated on disk.
+     * 当需要置换的page是dirty page时，需要跳过此page，去置换下一个非dirty的page。
+     * 当BufferPool中缓存的page都是dirty page时，抛出异常。
      */
     private synchronized  void evictPage() throws DbException {
         // some code goes here
-        LinkedNode tail = removeTail();
-        PageId evictPageId = tail.pageId;
-        try {
-            flushPage(evictPageId);
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < numPages; i++) {
+            LinkedNode tail = removeTail();
+            Page evictPage = tail.page;
+            if (evictPage.isDirty() != null) {
+                addToHead(tail);
+            }
+            else {
+                PageId pid = tail.pageId;
+                discardPage(pid);
+                return;
+            }
         }
-        discardPage(evictPageId);
+        throw new DbException("Erorr: all pages in bufferpool are dirty");
     }
 
 }
