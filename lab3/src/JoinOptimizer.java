@@ -5,6 +5,7 @@ import simpledb.ParsingException;
 import simpledb.execution.*;
 import simpledb.storage.TupleDesc;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.*;
 
 import javax.swing.*;
@@ -539,7 +540,7 @@ public class JoinOptimizer {
 
         f.setSize(300, 500);
 
-        Map<String, DefaultMutableTreeNode> m = new HashMap<>();
+        Map<String, DefaultMutableTreeNode> m = new ConcurrentHashMap<>();
 
         // int numTabs = 0;
 
