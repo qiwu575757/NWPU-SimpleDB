@@ -11,7 +11,7 @@ import java.util.*;
 public class TupleDesc implements Serializable {
     private static final long serialVersionUID = 1L;
     //这里之前没先生成对象，一直报错，呜呜呜！！！
-    private ArrayList<TDItem> tditems = new ArrayList<TDItem>();;
+    private ArrayList<TDItem> tditems = new ArrayList<TDItem>();
 
     /**
      * A help class to facilitate organizing the information of each field
