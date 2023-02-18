@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="simpledb.storage.Tuple" x="149" y="386">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.storage.RecordId"
+            endpointName="recordID" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.TupleDesc"
+            endpointName="tupleDesc" kind="Simple"/>
+        <Communication destinationClassName="simpledb.storage.TupleDesc"/>
+    </Class>
+    <Class name="simpledb.storage.LockManager" x="1885" y="877">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.PageLock"/>
+    </Class>
+    <Class name="simpledb.storage.TupleDesc" x="696" y="686">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.TupleDesc.TDItem"
+            endpointName="tditems" kind="Simple"/>
+    </Class>
+    <Class name="simpledb.storage.PageLock" x="1924" y="886">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool" x="928" y="133">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.common.Catalog"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool.LinkedNode"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool.LinkedNode" x="1924" y="886">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="next" kind="Simple"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="prev" kind="Simple"/>
+    </Class>
+    <Class name="simpledb.common.Catalog.DbTable" x="495" y="865">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.HeapPageId" x="138" y="142">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.RecordId" x="136" y="633">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.common.Catalog" x="75" y="837">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.common.Catalog.DbTable"/>
+    </Class>
+    <Class name="simpledb.storage.HeapFile" x="961" y="513">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.storage.TupleDesc"
+            endpointName="td" kind="Simple"/>
+        <Communication destinationClassName="simpledb.storage.RecordId"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile.HeapFileIterator"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+        <Communication destinationClassName="simpledb.storage.HeapPage"/>
+    </Class>
+    <Class name="simpledb.execution.SeqScan" x="983" y="747">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.common.Catalog"/>
+        <Communication destinationClassName="simpledb.storage.TupleDesc"/>
+    </Class>
+    <Class name="simpledb.storage.HeapFile.HeapFileIterator" x="501" y="18">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile"/>
+        <Communication destinationClassName="simpledb.storage.HeapPage"/>
+    </Class>
+    <Class name="simpledb.storage.TupleDesc.TDItem" x="385" y="649">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.HeapPage" x="575" y="319">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.storage.TupleDesc"
+            endpointName="td" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.HeapPageId"
+            endpointName="pid" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.Tuple"
+            endpointName="tuples" kind="Simple"/>
+        <Communication destinationClassName="simpledb.common.Catalog"/>
+        <Communication destinationClassName="simpledb.storage.Tuple"/>
+        <Communication destinationClassName="simpledb.storage.RecordId"/>
+        <Communication destinationClassName="simpledb.storage.TupleDesc"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+</ClassDiagram>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="simpledb.storage.HeapFile" x="924" y="522">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile.HeapFileIterator"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.storage.LockManager" x="763" y="259">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.PageLock"/>
+    </Class>
+    <Class name="simpledb.storage.HeapFile.HeapFileIterator" x="203" y="453">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile"/>
+    </Class>
+    <Class name="simpledb.storage.PageLock" x="404" y="297">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool" x="440" y="444">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="head" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.LockManager"
+            endpointName="lockManager" kind="Simple"/>
+        <Communication destinationClassName="simpledb.storage.LockManager"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool.LinkedNode"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool.LinkedNode" x="606" y="194">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="next" kind="Simple"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="prev" kind="Simple"/>
+    </Class>
+</ClassDiagram>

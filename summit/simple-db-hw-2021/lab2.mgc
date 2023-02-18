@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="simpledb.execution.Delete" x="-83" y="345">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.execution.Insert" x="-75" y="545">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.storage.LockManager" x="140" y="763">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.PageLock"/>
+    </Class>
+    <Class name="simpledb.execution.Predicate" x="588" y="490">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.execution.Predicate.Op"
+            endpointName="op" kind="Simple"/>
+        <Communication destinationClassName="simpledb.execution.Predicate.Op"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool" x="-181" y="919">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="head" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.LockManager"
+            endpointName="lockManager" kind="Simple"/>
+        <Communication destinationClassName="simpledb.storage.LockManager"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool.LinkedNode"/>
+    </Class>
+    <Class name="simpledb.execution.Predicate.Op" x="859" y="573">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.execution.StringAggregator.CountHandler"
+        x="1042" y="559">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.StringAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.MinHandler"
+        x="613" y="188">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.StringAggregator.AggHandler" x="789" y="407">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.execution.Aggregate" x="1265" y="563">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.HeapFile.HeapFileIterator" x="318" y="904">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile"/>
+        <Communication destinationClassName="simpledb.storage.HeapPage"/>
+    </Class>
+    <Class name="simpledb.storage.HeapPage" x="933" y="834">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.SumHandler"
+        x="592" y="407">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.AggHandler"
+        x="613" y="276">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.CountHandler"
+        x="767" y="184">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.Filter" x="417" y="498">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.execution.Predicate"
+            endpointName="p" kind="Simple"/>
+        <Communication destinationClassName="simpledb.execution.Predicate"/>
+    </Class>
+    <Class name="simpledb.execution.Join" x="111" y="550">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.execution.JoinPredicate"
+            endpointName="jp" kind="Simple"/>
+        <Communication destinationClassName="simpledb.execution.JoinPredicate"/>
+    </Class>
+    <Class name="simpledb.storage.PageLock" x="-419" y="228">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool.LinkedNode" x="-18" y="800">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="next" kind="Simple"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="prev" kind="Simple"/>
+    </Class>
+    <Class name="simpledb.execution.StringAggregator" x="1157" y="367">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.execution.StringAggregator.AggHandler"
+            endpointName="aggHandler" kind="Simple"/>
+        <Communication destinationClassName="simpledb.execution.StringAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.MaxHandler"
+        x="923" y="288">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.storage.HeapFile" x="504" y="919">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.HeapFile.HeapFileIterator"/>
+        <Communication destinationClassName="simpledb.storage.HeapPage"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator" x="118" y="369">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"
+            endpointName="aggHandler" kind="Simple"/>
+        <Communication destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+    <Class name="simpledb.execution.JoinPredicate" x="330" y="632">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.execution.Predicate.Op"
+            endpointName="op" kind="Simple"/>
+    </Class>
+    <Class name="simpledb.execution.IntegerAggregator.AvgHandler"
+        x="349" y="246">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="simpledb.execution.IntegerAggregator.AggHandler"/>
+    </Class>
+</ClassDiagram>

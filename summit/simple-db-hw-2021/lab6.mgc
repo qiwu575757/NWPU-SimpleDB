@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="simpledb.storage.LockManager" x="570" y="559">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.PageLock"/>
+    </Class>
+    <Class name="simpledb.storage.LogFile" x="139" y="339">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool"/>
+    </Class>
+    <Class name="simpledb.storage.PageLock" x="443" y="88">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool" x="543" y="236">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="head" kind="Simple"/>
+        <Association destinationClassName="simpledb.storage.LockManager"
+            endpointName="lockManager" kind="Simple"/>
+        <Communication destinationClassName="simpledb.storage.LockManager"/>
+        <Communication destinationClassName="simpledb.storage.LogFile"/>
+        <Communication destinationClassName="simpledb.storage.BufferPool.LinkedNode"/>
+    </Class>
+    <Class name="simpledb.storage.BufferPool.LinkedNode" x="133" y="110">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="next" kind="Simple"/>
+        <Association
+            destinationClassName="simpledb.storage.BufferPool.LinkedNode"
+            endpointName="prev" kind="Simple"/>
+    </Class>
+</ClassDiagram>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="simpledb.index.BTreeSearchIterator" x="619" y="607">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.index.BTreeFile"
+            endpointName="f" kind="Simple"/>
+        <Association destinationClassName="simpledb.index.BTreeLeafPage"
+            endpointName="curp" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeLeafPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeRootPtrPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeFile"/>
+    </Class>
+    <Class name="simpledb.index.BTreeFileIterator" x="268" y="599">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.index.BTreeFile"
+            endpointName="f" kind="Simple"/>
+        <Association destinationClassName="simpledb.index.BTreeLeafPage"
+            endpointName="curp" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeLeafPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeRootPtrPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeFile"/>
+    </Class>
+    <Class name="simpledb.index.BTreeLeafPage" x="345" y="813">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.index.BTreeInternalPage" x="1335" y="424">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.index.BTreeInternalPageReverseIterator"
+        x="1523" y="184">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.index.BTreeInternalPage"
+            endpointName="p" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeInternalPage"/>
+    </Class>
+    <Class name="simpledb.index.BTreeRootPtrPage" x="1229" y="787">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="simpledb.index.BTreeLeafPageIterator" x="859" y="685">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.index.BTreeLeafPage"
+            endpointName="p" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeLeafPage"/>
+    </Class>
+    <Class name="simpledb.index.BTreeLeafPageReverseIterator" x="880" y="874">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="simpledb.index.BTreeLeafPage"
+            endpointName="p" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeLeafPage"/>
+    </Class>
+    <Class name="simpledb.index.BTreeFile" x="107" y="126">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="simpledb.index.BTreeLeafPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeInternalPage"/>
+        <Communication destinationClassName="simpledb.index.BTreeRootPtrPage"/>
+    </Class>
+    <Class name="simpledb.index.BTreeInternalPageIterator" x="1249" y="165">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="simpledb.index.BTreeInternalPage"
+            endpointName="p" kind="Simple"/>
+        <Communication destinationClassName="simpledb.index.BTreeInternalPage"/>
+    </Class>
+</ClassDiagram>
